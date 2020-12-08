@@ -5,16 +5,12 @@ namespace HRD\Rubru\HttpClients;
 
 
 use HRD\Rubru\Exception\AccessDenied;
-use HRD\Rubru\Exception\AlreadyExists;
 use HRD\Rubru\Exception\CourseNotAccessible;
 use HRD\Rubru\Exception\RoomNotAccessible;
 use HRD\Rubru\Exception\CourseNotFound;
 use HRD\Rubru\Exception\RoomNotFound;
 use HRD\Rubru\Exception\DuplicateCourse;
 use HRD\Rubru\Exception\DuplicateRoom;
-use HRD\Rubru\Exception\InvalidRoomName;
-use HRD\Rubru\Exception\UnavailableUsername;
-use Psr\Http\Message\ResponseInterface;
 
 class ErrorHandling
 {
