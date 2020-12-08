@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-		"php": ">=7.0.0",
+		"php": "7.0.33",
         "guzzlehttp/guzzle": "^6.2",
         "nesbot/carbon": "^1.39.1"
     },
