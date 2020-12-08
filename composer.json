@@ -1,6 +1,7 @@
 {
     "name": "hr-d/rubru",
     "description": "Library for interacting with Rubru service",
+    "license": "MIT",
     "authors": [
         {
             "name": "HamidReza Daneshvar",
