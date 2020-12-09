@@ -3,6 +3,7 @@
 namespace HRD\Rubru\HttpClients;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 /**
  * Class GuzzleHttpClient.
@@ -50,25 +51,28 @@ class GuzzleHttpClient
      */
     public function make(string $url, string $method, array $params, array $headers = [])
     {
-        $response = $this->client->request($method, $url, [
-            'json' => [
-                'params' => $params,
-            ],
-            'headers' => [
-                $headers
-            ],
-            'timeOut' => $this->timeOut
-        ]);
-        $result = $response->getBody();
+        try {
+            $response = $this->client->request($method, $url, [
+                'json' => $params,
+                'headers' => $headers,
+                'timeOut' => $this->timeOut
+            ]);
+            $result = $response->getBody();
 
-        if ($this->isJson($result)) {
+            if ($this->isJson($result)) {
+                $result = json_decode($response->getBody(), true);
+            }
+
+            if ($response->getStatusCode() == 200 || $response->getStatusCode() == 201) {
+                return $result;
+            }
+        } catch (ClientException $exception) {
+            $response = $exception->getResponse();
             $result = json_decode($response->getBody(), true);
+            $this->errorHandling->fire($response->getStatusCode(), $result);
+        } catch (\Exception $e) {
+            $this->errorHandling->fire($response->getStatusCode(), []);
         }
-
-        if ($response->getStatusCode() == 200 || $response->getStatusCode() == 201) {
-            return $result;
-        }
-        $this->errorHandling->fire($response->getStatusCode(), $result);
     }
 
     /**

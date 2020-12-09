@@ -35,17 +35,14 @@ class Request
      */
     public function make(string $path, string $method, array $params)
     {
-        if (!wincache_ucache_exists('Authorization')) {
-            wincache_ucache_set('Authorization', $this->get_auth(), 86400); // the authorization caching for 24 hours
-        }
-        $Authorization = wincache_ucache_get('Authorization');
+        $Authorization = $this->get_auth();
         try {
             return $this->client->make($this->get_apiUrl($path), $method, $params, [
-                'Authorization' => "Bearer " . $Authorization,
-                "Accept" => "application/json"]);
+                'Authorization' => "Bearer " . $Authorization]);
         } catch (AccessDenied $e) {
-            wincache_ucache_clear();
             $this->make($path, $method, $params);
+        } catch (\Throwable $e) {
+            throw $e ;
         }
     }
 
@@ -60,14 +57,14 @@ class Request
         $username = getenv(self::RUBRU_USERNAME_ENV_NAME) ?? "";
         $password = getenv(self::RUBRU_PASSWORD_ENV_NAME) ?? "";
         try {
-            $result = $this->client->make($this->get_apiUrl('authenticate'), [
+            $result = $this->client->make($this->get_apiUrl('authenticate'), "post", [
                 "username" => $username,
                 "password" => $password,
                 "captcha" => ""
             ]);
             return $result['id_token'];
-        } catch (AccessDenied $e) {
-            throw new \Exception();
+        } catch (\Throwable $e) {
+            throw $e;
         }
     }
 
