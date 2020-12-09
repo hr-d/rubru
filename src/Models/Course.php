@@ -116,13 +116,13 @@ class Course
 
     /**
      * set start dateTime
-     * @param Carbon $startDateTime
+     * @param $startDateTime
      *
      * @return Course
      */
-    public function set_startDateTime(Carbon $startDateTime)
+    public function set_startDateTime($startDateTime)
     {
-        $this->startDateTime = $startDateTime;
+        $this->startDateTime = $startDateTime instanceof Carbon ? $startDateTime : Carbon::parse($startDateTime);
         return $this;
     }
 
@@ -142,13 +142,13 @@ class Course
 
     /**
      * set finish dateTime
-     * @param Carbon $finishDateTime
+     * @param $finishDateTime
      *
      * @return Course
      */
-    public function set_finishDateTime(Carbon $finishDateTime)
+    public function set_finishDateTime($finishDateTime)
     {
-        $this->finishDateTime = $finishDateTime;
+        $this->finishDateTime = $finishDateTime instanceof Carbon ? $finishDateTime : Carbon::parse($finishDateTime);
         return $this;
     }
 
@@ -163,8 +163,8 @@ class Course
             'id' => $this->get_id(),
             'title' => $this->get_title(),
             'description' => $this->get_description(),
-            'startDateTime' => $this->get_startDateTime(),
-            'finishDateTime' => $this->get_finishDateTime()
+            'startDateTime' => $this->get_startDateTime()->format('Y-m-d H:i'),
+            'finishDateTime' => $this->get_finishDateTime()->format('Y-m-d H:i')
         ];
     }
 
@@ -174,7 +174,7 @@ class Course
      */
     public function setAllAttribute(array $data): Room
     {
-        foreach ($data as $param=>$value) {
+        foreach ($data as $param => $value) {
             $function_name = 'set_' . $param;
             if (function_exists($function_name)) {
                 $this->$function_name($value);

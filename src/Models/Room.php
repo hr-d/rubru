@@ -235,13 +235,13 @@ class Room
 
     /**
      * set start dateTime
-     * @param Carbon $startDateTime
+     * @param $startDateTime
      *
      * @return ClassRoom
      */
-    public function set_startDateTime(Carbon $startDateTime)
+    public function set_startDateTime($startDateTime)
     {
-        $this->startDateTime = $startDateTime;
+        $this->startDateTime = $startDateTime instanceof Carbon ? $startDateTime : Carbon::parse($startDateTime);
         return $this;
     }
 
@@ -260,13 +260,13 @@ class Room
 
     /**
      * set finish dateTime
-     * @param Carbon $finishDateTime
+     * @param $finishDateTime
      *
      * @return ClassRoom
      */
-    public function set_finishDateTime(Carbon $finishDateTime)
+    public function set_finishDateTime($finishDateTime)
     {
-        $this->finishDateTime = $finishDateTime;
+        $this->finishDateTime = $finishDateTime instanceof Carbon ? $finishDateTime : Carbon::parse($finishDateTime);
         return $this;
     }
 
@@ -518,8 +518,8 @@ class Room
             'guestSession' => $this->get_guestSession(),
             'guestWithSubscriberRole' => $this->get_guestWithSubscriberRole(),
             'useEnterToken' => $this->get_useEnterToken(),
-            'startDateTime' => $this->get_startDateTime(),
-            'finishDateTime' => $this->get_finishDateTime(),
+            'startDateTime' => $this->get_startDateTime()->format('Y-m-d\TH:i:s.000\Z'),
+            'finishDateTime' => $this->get_finishDateTime()->format('Y-m-d\TH:i:s.000\Z'),
             'courseId' => $this->get_courseId(),
             'hideGlobalChat' => $this->get_hideGlobalChat(),
             'hidePrivateChat' => $this->get_hidePrivateChat(),
