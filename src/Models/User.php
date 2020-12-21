@@ -309,9 +309,10 @@ class User
     {
         foreach ($data as $param=>$value) {
             $function_name = 'set_' . $param;
-            if (function_exists($function_name)) {
+            if (method_exists($this, $function_name)) {
                 $this->$function_name($value);
             }
         }
+        return $this;
     }
 }
