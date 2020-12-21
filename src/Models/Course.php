@@ -163,8 +163,8 @@ class Course
             'id' => $this->get_id(),
             'title' => $this->get_title(),
             'description' => $this->get_description(),
-            'startDateTime' => $this->get_startDateTime()->format('Y-m-d H:i'),
-            'finishDateTime' => $this->get_finishDateTime()->format('Y-m-d H:i')
+            'startDateTime' => $this->get_startDateTime()->format('Y-m-d H:i:s'),
+            'finishDateTime' => $this->get_finishDateTime()->format('Y-m-d H:i:s')
         ];
     }
 
