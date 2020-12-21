@@ -66,7 +66,7 @@ class RoomCollection extends Room
     public function delete()
     {
         $id = $this->get_id();
-        $this->request->make("webinar/classroom/delete/{$id}" , 'DELETE', []);
+        $this->request->make("webinar/classroom/delete/{$id}", 'DELETE', []);
     }
 
     /**
@@ -78,5 +78,21 @@ class RoomCollection extends Room
         $base_url = $this->request->base_url();
         $sessionUuidName = $this->get_sessionUuidName();
         return "{$base_url}/{$sessionUuidName}";
+    }
+
+    /**
+     * timeUsage room
+     *
+     * @return int
+     */
+    public function timeUsage(): int
+    {
+        $id = $this->get_id();
+        $reposts = $this->request->make("classroom/sessions/report/{$id}", 'POST', []);
+        $timeUsage = 0;
+        foreach ($reposts as $repost) {
+            $timeUsage += intval($repost['duration']);
+        }
+        return $timeUsage;
     }
 }
