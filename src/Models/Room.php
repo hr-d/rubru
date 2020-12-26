@@ -100,6 +100,11 @@ class Room
      */
     private $maxUserCount;
 
+    /**
+     * @var bool
+     */
+    private $moderatorAutoLogin;
+
 
     /**
      * set id
@@ -505,6 +510,28 @@ class Room
     }
 
     /**
+     * set moderatorAutoLogin
+     * @param bool $moderatorAutoLogin
+     *
+     * @return ClassRoom
+     */
+    public function set_moderatorAutoLogin(int $moderatorAutoLogin)
+    {
+        $this->moderatorAutoLogin = $moderatorAutoLogin;
+        return $this;
+    }
+
+    /**
+     * get moderatorAutoLogin
+     *
+     * @return bool
+     */
+    public function get_moderatorAutoLogin(): bool
+    {
+        return $this->moderatorAutoLogin;
+    }
+
+    /**
      * toArray Attribute
      *
      * @return array
@@ -530,6 +557,7 @@ class Room
             'enableSubscriberDirectEnter' => $this->get_enableSubscriberDirectEnter(),
             'publisherMustEnterFirst' => $this->get_publisherMustEnterFirst(),
             'maxUserCount' => $this->get_maxUserCount(),
+            'moderatorAutoLogin' => $this->get_moderatorAutoLogin(),
         ];
     }
 
