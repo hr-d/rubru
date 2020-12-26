@@ -101,6 +101,11 @@ class Room
     private $maxUserCount;
 
     /**
+     * @var string
+     */
+    private $recordingMode;
+
+    /**
      * @var bool
      */
     private $moderatorAutoLogin;
@@ -510,6 +515,30 @@ class Room
     }
 
     /**
+     * set recordingMode
+     * @param string $recordingMode
+     *
+     * @return ClassRoom
+     */
+    public function set_recordingMode(string $recordingMode)
+    {
+        if (RecordingMode::check($recordingMode)) {
+            $this->recordingMode = $recordingMode;
+        }
+        return $this;
+    }
+
+    /**
+     * get recordingMode
+     *
+     * @return string
+     */
+    public function get_recordingMode(): string
+    {
+        return $this->recordingMode;
+    }
+
+    /**
      * set moderatorAutoLogin
      * @param bool $moderatorAutoLogin
      *
@@ -557,6 +586,7 @@ class Room
             'enableSubscriberDirectEnter' => $this->get_enableSubscriberDirectEnter(),
             'publisherMustEnterFirst' => $this->get_publisherMustEnterFirst(),
             'maxUserCount' => $this->get_maxUserCount(),
+            'recordingMode' => $this->get_recordingMode(),
             'moderatorAutoLogin' => $this->get_moderatorAutoLogin(),
         ];
     }
