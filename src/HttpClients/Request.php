@@ -73,14 +73,14 @@ class Request
      */
     public function base_url()
     {
-        return $base_url = getenv(self::RUBRU_BASE_URL_ENV_NAME) ?? "https://online.rubru.me";
+        return getenv(self::RUBRU_BASE_URL_ENV_NAME) ?? "https://online.rubru.me";
     }
 
     /**
      * @param string $path
      * @return string
      */
-    private function get_apiUrl(string $path)
+    public function get_apiUrl(string $path)
     {
         return $this->base_url() . '/api/' . $path;
     }

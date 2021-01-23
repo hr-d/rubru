@@ -95,4 +95,20 @@ class RoomCollection extends Room
         }
         return $timeUsage;
     }
+
+    /**
+     * recording files
+     *
+     * @return array
+     */
+    public function recordingFiles(): int
+    {
+        $id = $this->get_id();
+        $respose = $this->request->make("classroom/recordings/list/{$id}", 'GET', []);
+        $fileLinks = [];
+        foreach ($respose as $item) {
+            $fileLinks[]= $this->request->get_apiUrl("https://evand.rubru.me/api/classroom/recording/get/{$item['id']}");
+        }
+        return $fileLinks;
+    }
 }
