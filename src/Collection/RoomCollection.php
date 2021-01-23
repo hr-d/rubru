@@ -88,27 +88,37 @@ class RoomCollection extends Room
     public function timeUsage(): int
     {
         $id = $this->get_id();
-        $reposts = $this->request->make("classroom/sessions/report/{$id}", 'POST', []);
+        $response = $this->request->make("classroom/sessions/report/{$id}", 'POST', []);
         $timeUsage = 0;
-        foreach ($reposts as $repost) {
-            $timeUsage += intval($repost['duration']);
+        foreach ($response as $item) {
+            $timeUsage += intval($item['duration']);
         }
         return $timeUsage;
     }
 
     /**
-     * recording files
+     * recording ids
      *
      * @return array
      */
-    public function recordingFiles(): int
+    public function recordingIds(): array
     {
         $id = $this->get_id();
-        $respose = $this->request->make("classroom/recordings/list/{$id}", 'GET', []);
-        $fileLinks = [];
-        foreach ($respose as $item) {
-            $fileLinks[]= $this->request->get_apiUrl("https://evand.rubru.me/api/classroom/recording/get/{$item['id']}");
+        $response = $this->request->make("classroom/recordings/list/{$id}", 'GET', []);
+        $ids = [];
+        foreach ($response as $item) {
+            $ids[] = (object)['id' => $item['id'], 'fileSize' => $item['fileSize']];
         }
-        return $fileLinks;
+        return $ids;
+    }
+
+    /**
+     * recording file
+     *
+     * @param int $id
+     */
+    public function recordingFile(int $id)
+    {
+        return $this->request->make("classroom/recording/get/{$id}", 'GET', []);
     }
 }

@@ -80,7 +80,7 @@ class Request
      * @param string $path
      * @return string
      */
-    public function get_apiUrl(string $path)
+    private function get_apiUrl(string $path)
     {
         return $this->base_url() . '/api/' . $path;
     }
