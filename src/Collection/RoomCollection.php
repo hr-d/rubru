@@ -107,6 +107,8 @@ class RoomCollection extends Room
         $response = $this->request->make("classroom/recordings/list/{$id}", 'GET', []);
         $ids = [];
         foreach ($response as $item) {
+            if ($item['storageStatus'] != 'Downloaded')
+                continue;
             $ids[] = (object)['id' => $item['id'], 'fileSize' => $item['fileSize']];
         }
         return $ids;
