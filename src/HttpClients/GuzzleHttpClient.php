@@ -71,7 +71,7 @@ class GuzzleHttpClient
             $result = json_decode($response->getBody(), true);
             $this->errorHandling->fire($response->getStatusCode(), $result);
         } catch (\Exception $e) {
-            $this->errorHandling->fire($response->getStatusCode(), []);
+            throw $e;
         }
     }
 

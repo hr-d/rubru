@@ -38,7 +38,7 @@ class ErrorHandling
             throw new \Exception("i don't know! please connect to Rubru", $statusCode);
         }
         foreach ($this->correspondingErrorExceptions as $errorKey => $class) {
-            $result['errorKey'] = $result['errorKey']?: $result['title'];
+            $result['errorKey'] = $result['errorKey']?? $result['title'];
             if ($result['errorKey'] == $errorKey) {
                 throw new $class($result['title'], $result['status']);
             }
