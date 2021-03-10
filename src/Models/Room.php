@@ -613,7 +613,7 @@ class Room
     {
         $string = mb_strtolower($string, 'UTF-8');
         $string = $this->convertNumber($string);
-        $string = mb_ereg_replace('[^a-z0-9 پچجحخهعغفقثصضشسیبلاتنمکگوئدذرزطظژؤإآأءًٌٍَُِّ]', '', $string); // Removes special chars.
+        $string = mb_ereg_replace('[^a-z0-9 پچجحخهعغفقثصضشسیبلاتنمکگوئدذرزطظژؤإآأًٌٍَُِّ]', '', $string); // Removes special chars.
         return $string;
     }
 
