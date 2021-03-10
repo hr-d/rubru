@@ -141,8 +141,9 @@ class Room
      */
     public function set_name(string $name)
     {
-        if(strlen($name)>100)
-            $name = substr($name,0,100);
+        mb_internal_encoding('UTF-8');
+        if (mb_strlen($name) > 50)
+            $name = mb_substr($name, 0, 50);
         $this->name = $this->clean($name);
         return $this;
     }
@@ -607,14 +608,19 @@ class Room
         }
         return $this;
     }
-    private function clean($string) {
-        $string = $this->convertNumber(strtolower($string));
-        return preg_replace('/[^a-z0-9الف-ی ]/', '', $string); // Removes special chars.
+
+    private function clean($string)
+    {
+        $string = mb_strtolower($string, 'UTF-8');
+        $string = $this->convertNumber($string);
+        $string = mb_ereg_replace('[^a-z0-9 پچجحخهعغفقثصضشسیبلاتنمکگوئدذرزطظژؤإآأءًٌٍَُِّ]', '', $string); // Removes special chars.
+        return $string;
     }
 
-    private function convertNumber(string $string) {
+    private function convertNumber(string $string)
+    {
         $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨','٩'];
+        $arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
 
         $num = range(0, 9);
         $convertedPersianNums = str_replace($persian, $num, $string);

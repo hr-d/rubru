@@ -40,8 +40,8 @@ class RoomCollection extends Room
             $this->set_sessionUuidName($response['sessionUuidName']);
         } catch (DuplicateRoom $e) {
             $name = $this->get_name();
-            if(strlen($name)>95)
-                $name = substr($name,0,95);
+            if (mb_strlen($name) > 45)
+                $name = mb_substr($name, 0, 45);
             $name .= rand(1, 99999);
             $this->set_name($name);
             return $this->save();
