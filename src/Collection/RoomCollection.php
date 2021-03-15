@@ -106,12 +106,14 @@ class RoomCollection extends Room
     public function recordingIds(): array
     {
         $id = $this->get_id();
+        $user_id = $this->request->user_id();
         $response = $this->request->make("classroom/recordings/list/{$id}", 'GET', []);
         $ids = [];
         foreach ($response as $item) {
             if ($item['storageStatus'] != 'Downloaded')
                 continue;
-            $ids[] = (object)['id' => $item['id'], 'fileSize' => $item['fileSize']];
+            $checksum = sha1("uid={$user_id}&fid={$item['id']}&du={$item['duration']}&fs={$item['fileSize']}");
+            $ids[] = (object)['id' => $item['id'], 'fileSize' => $item['fileSize'], 'duration' => $item['duration'], 'checksum' => $checksum];
         }
         return $ids;
     }
@@ -120,9 +122,10 @@ class RoomCollection extends Room
      * recording file
      *
      * @param int $id
+     * @param string $checksum
      */
-    public function recordingFile(int $id)
+    public function recordingFile(int $id, string $checksum)
     {
-        return $this->request->make("classroom/recording/get/{$id}", 'GET', []);
+        return $this->request->base_url() . "/api/classroom/recording/get/{$id}/{$checksum}";
     }
 }

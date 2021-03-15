@@ -9,6 +9,7 @@ class Request
     const RUBRU_BASE_URL_ENV_NAME = "RUBRU_BASE_URL";
     const RUBRU_USERNAME_ENV_NAME = "RUBRU_USERNAME";
     const RUBRU_PASSWORD_ENV_NAME = "RUBRU_PASSWORD";
+    const RUBRU_USER_ID_ENV_NAME = "RUBRU_USER_ID";
 
     /**
      * @var GuzzleHttpClient
@@ -42,7 +43,7 @@ class Request
         } catch (AccessDenied $e) {
             $this->make($path, $method, $params);
         } catch (\Throwable $e) {
-            throw $e ;
+            throw $e;
         }
     }
 
@@ -83,5 +84,13 @@ class Request
     private function get_apiUrl(string $path)
     {
         return $this->base_url() . '/api/' . $path;
+    }
+
+    /**
+     * @return int
+     */
+    public function user_id()
+    {
+        return getenv(self::RUBRU_USER_ID_ENV_NAME) ?? 0;
     }
 }
