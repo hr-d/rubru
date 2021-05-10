@@ -112,6 +112,8 @@ class RoomCollection extends Room
         foreach ($response as $item) {
             if ($item['storageStatus'] != 'Downloaded')
                 continue;
+            if(strlen(substr(strrchr($item['duration'], "."), 1)) == 0)
+                $item['duration'] = sprintf("%.1f", $item['duration']);
             $checksum = sha1("uid={$user_id}&fid={$item['id']}&du={$item['duration']}&fs={$item['fileSize']}");
             $ids[] = (object)['id' => $item['id'], 'fileSize' => $item['fileSize'], 'duration' => $item['duration'], 'checksum' => $checksum];
         }
